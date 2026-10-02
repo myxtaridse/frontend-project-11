@@ -7,20 +7,21 @@
   </head>
   <body>
     <div class="bg-slate-800 flex justify-center items-center py-7 text-white">
-      <div>
-        <h1 class="text-3xl">RSS агрегатор</h1>
-        <p class="text-md">Начните читать RSS сегодня! Это легко, это красиво.</p>
-        <form class="mt-2">
-          <label for="link-rss" class="block text-sm opacity-70 mb-1">Ссылка RSS</label>
+      <div class="flex flex-col gap-2">
+        <h1 class="text-4xl">RSS агрегатор</h1>
+        <p class="text-lg">Начните читать RSS сегодня! Это легко, это красиво.</p>
+        <form>
+          <label for="link-rss" class="block text-sm opacity-80">Ссылка RSS</label>
           <input
             id="link-rss"
             type="text"
             placeholder="ссылка RSS"
-            class="border rounded-sm bg-white px-2 py-1 w-120"
+            class="peer border rounded-sm bg-white px-2 py-1 w-120 my-2"
           />
-          <input type="submit" value="Добавить" class="bg-blue-500 px-5 py-1 rounded-sm" />
+          <button type="submit" class="bg-blue-500 px-5 py-1 rounded-sm">Добавить</button>
+          <p class="text-sm opacity-70">Пример: https://lorem-rss.hexlet.app/feed</p>
+          <span class="hidden peer-invalid:block text-xs text-red-400 mt-1">Ресурс не содержит валидный RSS</span>
         </form>
-        <p class="text-xs opacity-60 mt-1">Пример: https://lorem-rss.hexlet.app/feed</p>
       </div>
     </div>
     <script src="./src/index.js"></script>
