@@ -3,7 +3,7 @@ name: lint-check
 on:
   - push
 jobs:
-  build:
+  type-check:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -17,3 +17,20 @@ jobs:
           cache: 'npm'
       - run: make install
       - run: make lint
+
+  deploy:
+    name: Deploy to Vercel
+    needs: type-check
+    runs-on: ubuntu-latest
+    if: success()
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+
+      - name: Deploy to Vercel
+        run: vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
+
