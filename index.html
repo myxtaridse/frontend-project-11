@@ -3,27 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="/src/style.css" rel="stylesheet" />
+    <title>RSS-агрегатор</title>
   </head>
   <body>
     <div class="bg-slate-800 flex justify-center items-center py-7 text-white">
       <div class="flex flex-col gap-2">
         <h1 class="text-4xl">RSS агрегатор</h1>
         <p class="text-lg">Начните читать RSS сегодня! Это легко, это красиво.</p>
-        <form>
-          <label for="link-rss" class="block text-sm opacity-80">Ссылка RSS</label>
+        <form id="searchForm">
+          <label for="searchInput" class="block text-sm opacity-80">Ссылка RSS</label>
           <input
-            id="link-rss"
+            id="searchInput"
             type="text"
             placeholder="ссылка RSS"
-            class="peer border rounded-sm bg-white px-2 py-1 w-120 my-2"
+            class="border rounded-sm bg-white px-2 py-1 w-120 my-2 placeholder:text-gray-400 text-black"
           />
-          <button type="submit" class="bg-blue-500 px-5 py-1 rounded-sm">Добавить</button>
+          <button id="submitBtn" type="submit" class="bg-blue-500 px-5 py-1 rounded-sm cursor-pointer">Добавить</button>
           <p class="text-sm opacity-70">Пример: https://lorem-rss.hexlet.app/feed</p>
-          <span class="hidden peer-invalid:block text-xs text-red-400 mt-1">Ресурс не содержит валидный RSS</span>
+          <span id="message"  class="text-xs text-red-400 mt-1">Ресурс не содержит валидный RSS</span>
         </form>
       </div>
     </div>
-    <script src="./src/index.js"></script>
+    <script type="module" src="/src/index.js"></script>
   </body>
 </html>
