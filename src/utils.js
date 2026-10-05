@@ -1,2 +1,2 @@
-export const hasValue = ({ href }) => !!(href.trim());
-export const validateUrl = ({ href }) => (/^https:\/\//).test(href);
+export const hasValue = ({ href }) => !!href.trim()
+export const validateUrl = ({ href }) => href.startWith(/https?:\/\//)
