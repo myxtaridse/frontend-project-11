@@ -1,14 +1,14 @@
 import Rule from './rule.js'
 import { messages } from './messages.js'
-import { hasValue, validRegexp } from './utils.js';
+import { hasValue, validRegexp } from './utils.js'
 
 export default class StringSchema {
   constructor() {
-    this.rules = [];
+    this.rules = []
   }
   add(rule) {
-    this.rules.push(rule);
-    return this;
+    this.rules.push(rule)
+    return this
   }
   required() {
     return this.add(new Rule(hasValue, messages.required))
@@ -18,9 +18,9 @@ export default class StringSchema {
   }
   validate(value) {
     for (const rule of this.rules) {
-      const error = rule.validate(value);
+      const error = rule.validate(value)
       if (error) {
-        return error;
+        return error
       }
     }
   }
