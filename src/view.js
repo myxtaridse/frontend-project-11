@@ -1,7 +1,10 @@
+import { snapshot } from "valtio/vanilla"
+
 export default (state, submitBtn, message) => {
-  const {
-    process: { state: processState, error },
-  } = state
+  const obj = snapshot(state)
+  const { state: processState, error } = obj.process
+
+  console.log(error)
 
   if (processState === 'processing') {
     submitBtn.disabled = true
