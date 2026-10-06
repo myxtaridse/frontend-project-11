@@ -19,7 +19,7 @@ export default () => {
   const submitBtn = document.getElementById('submitBtn')
   const message = document.getElementById('message')
 
-  subscribe(state.process, () => updateUI(state, submitBtn, message));
+  subscribe(state.process, () => updateUI(state, submitBtn, message))
 
   searchInput.addEventListener('input', (event) => {
     state.formData.href = event.target.value

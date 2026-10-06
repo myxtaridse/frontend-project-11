@@ -1,4 +1,4 @@
-import { snapshot } from "valtio/vanilla"
+import { snapshot } from 'valtio/vanilla'
 
 export default (state, submitBtn, message) => {
   const obj = snapshot(state)
