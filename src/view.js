@@ -1,13 +1,16 @@
 import { snapshot } from 'valtio/vanilla'
 
-export default (state, submitBtn, message) => {
+export default (state, formEl) => {
   const obj = snapshot(state)
   const { state: processState, error } = obj.process
 
-  console.log(error)
+  const submitBtn = document.getElementById('submitBtn')
+  const message = document.getElementById('message')
 
   if (processState === 'processing') {
+    formEl.reset();
     submitBtn.disabled = true
+    message.textContent = ''
   } else if (processState === 'failed') {
     submitBtn.disabled = false
     message.textContent = error
