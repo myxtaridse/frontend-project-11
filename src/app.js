@@ -1,5 +1,5 @@
 import updateUI from './view.js'
-import { validateForm } from './validation.js'
+import { validateForm } from './validation/validateForm.js'
 
 export default () => {
   const state = {
@@ -30,6 +30,7 @@ export default () => {
     if (error) {
       state.process.state = 'failed'
       state.process.error = error
+      updateUI(state, submitBtn, message)
       return
     }
 
