@@ -1,5 +1,5 @@
 import updateUI from './view.js'
-import { validateForm } from './validation/yupValidation.js'
+import { validateForm } from './validateForm.js'
 import { proxy, subscribe } from 'valtio/vanilla'
 
 export default () => {
@@ -31,10 +31,12 @@ export default () => {
         state.process.state = 'processing'
 
         setTimeout(() => {
+          state.process.validationState = 'valid'
           state.process.state = 'success'
         }, 2000)
       })
       .catch((error) => {
+        state.process.validationState = 'invalid'
         state.process.state = 'failed'
         state.process.error = error.message
       })

@@ -13,6 +13,6 @@ const schema = yup.object().shape({
   href: yup.string().required().matches(/^https?:\/\//),
 });
 
-export const validateForm = async ({ formData }) => {
+export const validateForm = ({ formData }) => {
   return schema.validate(formData);
 }
