@@ -1,24 +1,29 @@
-import { snapshot } from 'valtio/vanilla'
+import { subscribe } from 'valtio/vanilla'
 
-export default (state, formEl) => {
-  const obj = snapshot(state)
-  const { state: processState, error } = obj.process
+export default (state, i18n) => {
+  const { process } = state.searchForm
 
+  const formEl = document.getElementById('searchForm')
   const submitBtn = document.getElementById('submitBtn')
   const message = document.getElementById('message')
 
-  if (processState === 'processing') {
-    formEl.reset();
-    submitBtn.disabled = true
-    message.textContent = ''
-  } else if (processState === 'failed') {
-    submitBtn.disabled = false
-    message.textContent = error
-  } else if (processState === 'success') {
-    submitBtn.disabled = true
-    message.textContent = 'RSS успешно загружен'
-  } else {
-    submitBtn.disabled = false
-    message.textContent = error
-  }
+  subscribe(state.searchForm.process, () => {
+    message.classList.toggle('text-red-400', process.isValid === 'invalid')
+    message.classList.toggle('text-green-400', process.isValid === 'valid')
+
+    if (process.state === 'processing') {
+      formEl.reset();
+      submitBtn.disabled = true
+      message.textContent = ''
+    } else if (process.state === 'failed') {
+      submitBtn.disabled = false
+      Object.values(process.errors).forEach(error => message.textContent = i18n.t(error))
+    } else if (process.state === 'success') {
+      submitBtn.disabled = true
+      message.textContent = 'RSS успешно загружен'
+    } else {
+      submitBtn.disabled = false
+      message.textContent = ''
+    }
+  })
 }

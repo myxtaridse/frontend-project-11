@@ -1,46 +1,56 @@
-import updateUI from './view.js'
+import { proxy } from 'valtio/vanilla'
+import i18next from 'i18next'
 import { validateForm } from './validateForm.js'
-import { proxy, subscribe } from 'valtio/vanilla'
+import resources from './locales/index.js'
+import view from './view.js'
 
-export default () => {
+export default async () => {
+  const defaultLng = 'ru'
+  const i18n = i18next.createInstance()
+  await i18n.init({
+    lng: defaultLng,
+    debug: false,
+    resources
+  })
   const state = proxy({
-    formData: {
-      href: '',
-    },
-    process: {
-      state: 'filling', // 'processing' | 'failed' | 'success'
-      error: '',
-      validationState: 'invalid', // 'valid'
-    },
+    searchForm: {
+      fields: {
+        href: ''
+      },
+      process: {
+        state: 'filling', // processing | failed | success
+        errors: {},
+        isValid: 'invalid', // valid
+      }
+    }
   })
 
   const form = document.getElementById('searchForm')
   const searchInput = form.querySelector('input#searchInput')
 
-  subscribe(state.process, () => updateUI(state, form))
-
   searchInput.addEventListener('input', (event) => {
-    state.formData.href = event.target.value
+    state.searchForm.fields.href = event.target.value
   })
-
   form.addEventListener('submit', (event) => {
     event.preventDefault()
 
-    validateForm(state)
-      .then(({href}) => {
-        state.process.state = 'processing'
+    validateForm(state.searchForm.fields)
+      .then(data => {
+        state.searchForm.process.isValid = 'valid'
+        state.searchForm.process.state = 'processing'
 
         setTimeout(() => {
-          state.process.validationState = 'valid'
-          state.process.state = 'success'
+          state.searchForm.process.state = 'success'
         }, 2000)
       })
-      .catch((error) => {
-        state.process.validationState = 'invalid'
-        state.process.state = 'failed'
-        state.process.error = error.message
+      .catch(error => {
+        state.searchForm.process.state = 'failed'
+        if (error.name === 'ValidationError') {
+          state.searchForm.process.isValid = 'invalid'
+          state.searchForm.process.errors['href'] = error.message
+        }
+        console.log(state.searchForm.process)
       })
   })
-
-  updateUI(state, form)
+  view(state, i18n)
 }

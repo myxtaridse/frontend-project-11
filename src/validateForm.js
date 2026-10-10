@@ -1,18 +1,17 @@
-import * as yup from 'yup';
+import * as yup from 'yup'
+import i18next, { keyFromSelector } from 'i18next'
 
 yup.setLocale({
   mixed: {
-    required: 'Поле не должно быть пустым',
+    required: keyFromSelector($ => $.searchForm.errors.required),
   },
   string: {
-    matches: 'Ссылка должна быть валидным URL'
+    matches: keyFromSelector($ => $.searchForm.errors.matches)
   }
-});
+})
 
 const schema = yup.object().shape({
   href: yup.string().required().matches(/^https?:\/\//),
 });
 
-export const validateForm = ({ formData }) => {
-  return schema.validate(formData);
-}
+export const validateForm = formData => schema.validate(formData)
