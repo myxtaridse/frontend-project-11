@@ -8,24 +8,24 @@
   <body>
     <div class="bg-slate-800 flex justify-center items-center py-7 text-white">
       <div class="flex flex-col gap-2">
-        <h1 class="text-4xl">RSS агрегатор</h1>
-        <p class="text-lg">Начните читать RSS сегодня! Это легко, это красиво.</p>
+        <h1 class="text-4xl" data-i18n="title"></h1>
+        <p class="text-lg" data-i18n="description"></p>
         <form id="searchForm" novalidate>
-          <label for="searchInput" class="block text-sm opacity-80">Ссылка RSS</label>
+          <label for="searchInput" class="block text-sm opacity-80" data-i18n="label"></label>
           <input
             id="searchInput"
             type="url"
             placeholder="ссылка RSS"
+            data-i18n="input"
             class="border rounded-sm bg-white px-2 py-1 w-120 my-2 placeholder:text-gray-400 text-black"
           />
           <button
             id="submitBtn"
             type="submit"
+            data-i18n="submitBtn"
             class="bg-blue-500 px-5 py-1 rounded-sm cursor-pointer"
-          >
-            Добавить
-          </button>
-          <p class="text-sm opacity-70">Пример: https://lorem-rss.hexlet.app/feed</p>
+          ></button>
+          <p class="text-sm opacity-70" data-i18n="example"></p>
           <span id="message" class="text-xs mt-1"></span
           >
         </form>

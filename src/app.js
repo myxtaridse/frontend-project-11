@@ -3,6 +3,7 @@ import i18next from 'i18next'
 import { validateForm } from './validateForm.js'
 import resources from './locales/index.js'
 import view from './view.js'
+import renderForm from './renderForm.js'
 
 export default async () => {
   const defaultLng = 'ru'
@@ -27,6 +28,8 @@ export default async () => {
 
   const form = document.getElementById('searchForm')
   const searchInput = form.querySelector('input#searchInput')
+
+  renderForm(i18n)
 
   searchInput.addEventListener('input', (event) => {
     state.searchForm.fields.href = event.target.value
