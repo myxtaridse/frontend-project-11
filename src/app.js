@@ -4,6 +4,8 @@ import { validateForm } from './validateForm.js'
 import resources from './locales/index.js'
 import view from './view.js'
 import renderForm from './renderForm.js'
+import req from './req.js'
+import parserXML from './parserXML.js'
 
 export default async () => {
   const defaultLng = 'ru'
@@ -18,6 +20,7 @@ export default async () => {
       fields: {
         href: '',
       },
+      feeds: {},
       process: {
         state: 'filling', // processing | failed | success
         errors: {},
@@ -38,13 +41,17 @@ export default async () => {
     event.preventDefault()
 
     validateForm(state.searchForm.fields)
-      .then((data) => {
+      .then(({ href }) => {
         state.searchForm.process.isValid = 'valid'
         state.searchForm.process.state = 'processing'
 
-        setTimeout(() => {
-          state.searchForm.process.state = 'success'
-        }, 2000)
+        req(href)
+          .then(({ data }) => {
+            if (data.status.http_code && data.status.http_code === 200) {
+              const newFeed = parserXML(data.contents)
+              state.searchForm.feeds[newFeed.id] = newFeed
+            }
+          })
       })
       .catch((error) => {
         state.searchForm.process.state = 'failed'
@@ -52,7 +59,6 @@ export default async () => {
           state.searchForm.process.isValid = 'invalid'
           state.searchForm.process.errors['href'] = error.message
         }
-        console.log(state.searchForm.process)
       })
   })
   view(state, i18n)
