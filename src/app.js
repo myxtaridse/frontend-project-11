@@ -11,19 +11,19 @@ export default async () => {
   await i18n.init({
     lng: defaultLng,
     debug: false,
-    resources
+    resources,
   })
   const state = proxy({
     searchForm: {
       fields: {
-        href: ''
+        href: '',
       },
       process: {
         state: 'filling', // processing | failed | success
         errors: {},
         isValid: 'invalid', // valid
-      }
-    }
+      },
+    },
   })
 
   const form = document.getElementById('searchForm')
@@ -38,7 +38,7 @@ export default async () => {
     event.preventDefault()
 
     validateForm(state.searchForm.fields)
-      .then(data => {
+      .then((data) => {
         state.searchForm.process.isValid = 'valid'
         state.searchForm.process.state = 'processing'
 
@@ -46,7 +46,7 @@ export default async () => {
           state.searchForm.process.state = 'success'
         }, 2000)
       })
-      .catch(error => {
+      .catch((error) => {
         state.searchForm.process.state = 'failed'
         if (error.name === 'ValidationError') {
           state.searchForm.process.isValid = 'invalid'

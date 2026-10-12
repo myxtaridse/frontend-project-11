@@ -12,12 +12,12 @@ export default (state, i18n) => {
     message.classList.toggle('text-green-400', process.isValid === 'valid')
 
     if (process.state === 'processing') {
-      formEl.reset();
+      formEl.reset()
       submitBtn.disabled = true
       message.textContent = ''
     } else if (process.state === 'failed') {
       submitBtn.disabled = false
-      Object.values(process.errors).forEach(error => message.textContent = i18n.t(error))
+      Object.values(process.errors).forEach((error) => (message.textContent = i18n.t(error)))
     } else if (process.state === 'success') {
       submitBtn.disabled = true
       message.textContent = 'RSS успешно загружен'

@@ -1,5 +1,5 @@
 import ru from './ru/translation.js'
 
 export default {
-  ru: { translation: ru }
+  ru: { translation: ru },
 }
