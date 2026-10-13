@@ -10,4 +10,8 @@ export default {
       url: 'Ссылка должна быть валидным URL',
     },
   },
+  contents: {
+    'posts-title': 'Посты',
+    'feed-title': 'Фиды',
+  }
 }

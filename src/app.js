@@ -2,8 +2,7 @@ import { proxy } from 'valtio/vanilla'
 import i18next from 'i18next'
 import { validateForm } from './validateForm.js'
 import resources from './locales/index.js'
-import view from './view.js'
-import renderForm from './renderForm.js'
+import view from './view/index.js'
 import req from './req.js'
 import parserXML from './parserXML.js'
 
@@ -20,7 +19,10 @@ export default async () => {
       fields: {
         href: '',
       },
-      feeds: {},
+      contents: {
+        feed: {},
+        posts: []
+      },
       process: {
         state: 'filling', // processing | failed | success
         errors: {},
@@ -29,15 +31,22 @@ export default async () => {
     },
   })
 
-  const form = document.getElementById('searchForm')
-  const searchInput = form.querySelector('input#searchInput')
+  const elements = {
+    form: document.getElementById('searchForm'),
+    formEls: {
+      searchInput: document.getElementById('searchInput'),
+      submitBtn: document.getElementById('submitBtn'),
+      message: document.getElementById('message'),
+    },
+    contents: document.getElementById('contents'),
+    feed: document.getElementById('feed'),
+    posts: document.getElementById('posts')
+  }
 
-  renderForm(i18n)
-
-  searchInput.addEventListener('input', (event) => {
+  elements.formEls.searchInput.addEventListener('input', (event) => {
     state.searchForm.fields.href = event.target.value
   })
-  form.addEventListener('submit', (event) => {
+  elements.form.addEventListener('submit', (event) => {
     event.preventDefault()
 
     validateForm(state.searchForm.fields)
@@ -48,8 +57,9 @@ export default async () => {
         req(href)
           .then(({ data }) => {
             if (data.status.http_code && data.status.http_code === 200) {
-              const newFeed = parserXML(data.contents)
-              state.searchForm.feeds[newFeed.id] = newFeed
+              const { feed, posts } = parserXML(data.contents)
+              state.searchForm.contents.feed = feed
+              state.searchForm.contents.posts = posts
             }
           })
       })
@@ -61,5 +71,5 @@ export default async () => {
         }
       })
   })
-  view(state, i18n)
+  view(state, i18n, elements)
 }
