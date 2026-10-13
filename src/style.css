@@ -1,2 +1,37 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/forms';
+
+:root {
+  --responsive-sm: 0.875rem;
+  --responsive-base: 1rem;
+  --responsive-lg: 1.125rem;
+  --responsive-4xl: 2.25rem;
+}
+
+@media (max-width: 500px) {
+  :root {
+    --responsive-sm: 0.75rem;
+    --responsive-base: 0.825rem;
+    --responsive-lg: 1rem;
+    --responsive-4xl: 1.75rem;
+  }
+}
+
+@theme {
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: var(--responsive-sm);
+  --text-sm--line-height: 1.25rem;
+  --text-base: var(--responsive-base);
+  --text-base--line-height: 1.5rem;
+  --text-lg: var(--responsive-lg);
+  --text-lg--line-height: 1.75rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.75rem;
+  --text-2xl: 1.5rem;
+  --text-2xl--line-height: 2rem;
+  --text-3xl: 1.875rem;
+  --text-3xl--line-height: 2.25rem;
+  --text-4xl: var(--responsive-4xl);
+  --text-4xl--line-height: 2.5rem;
+}
