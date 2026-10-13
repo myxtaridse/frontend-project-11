@@ -33,7 +33,7 @@ export default async () => {
   })
 
   const recursiveReq = () => {
-    if (state.searchForm.process.state === 'success' && state.searchForm.fields.href) {
+    if (state.searchForm.fields.href) {
       req(state.searchForm.fields.href)
         .then(({ data }) => {
           const { posts } = parserXML(data.contents)
