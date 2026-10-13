@@ -7,7 +7,7 @@ export default {
     example: 'Пример: https://lorem-rss.hexlet.app/feed',
     errors: {
       required: 'Поле не должно быть пустым',
-      matches: 'Ссылка должна быть валидным URL',
+      url: 'Ссылка должна быть валидным URL',
     },
   },
 }

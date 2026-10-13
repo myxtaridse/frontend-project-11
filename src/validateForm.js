@@ -6,15 +6,16 @@ yup.setLocale({
     required: keyFromSelector(($) => $.searchForm.errors.required),
   },
   string: {
-    matches: keyFromSelector(($) => $.searchForm.errors.matches),
+    url: keyFromSelector(($) => $.searchForm.errors.url),
   },
 })
 
 const schema = yup.object().shape({
   href: yup
     .string()
+    .trim()
     .required()
-    .matches(/^https?:\/\//),
+    .url(),
 })
 
 export const validateForm = (formData) => schema.validate(formData)
