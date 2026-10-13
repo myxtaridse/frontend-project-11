@@ -32,6 +32,21 @@ export default async () => {
     },
   })
 
+  const recursiveReq = () => {
+    if (state.searchForm.process.state === 'success' && state.searchForm.fields.href) {
+      req(state.searchForm.fields.href)
+        .then(({ data }) => {
+          const { posts } = parserXML(data.contents)
+          const idsStatePosts = state.searchForm.contents.posts.map(({ id }) => id);
+          const idsSet = new Set(idsStatePosts)
+          const filteredStatePosts = posts.filter(({ id }) => !idsSet.has(id))
+          state.searchForm.contents.posts = [...filteredStatePosts, ...state.searchForm.contents.posts]
+
+          setTimeout(recursiveReq, 5000)
+        })
+    }
+  }
+
   const elements = {
     form: document.getElementById('searchForm'),
     formEls: {
@@ -63,6 +78,7 @@ export default async () => {
             state.searchForm.contents.feeds = [...state.searchForm.contents.feeds, newFeed]
             state.searchForm.contents.posts = posts
             state.searchForm.process.state = 'success'
+            setTimeout(recursiveReq, 5000)
           })
       })
       .catch((error) => {

@@ -13,7 +13,7 @@ export default (xml) => {
   feed.description = doc.querySelector('description').textContent
   
   const posts = new Array(...doc.getElementsByTagName('item')).reduce((acc, item) => {
-    const id = uniqueId()
+    const id = item.getElementsByTagName('guid')[0].textContent ?? item.getElementsByTagName('id')[0].textContent
     const title = item.getElementsByTagName('title')[0].textContent
     const description = item.getElementsByTagName('description')[0].textContent
     const link = item.getElementsByTagName('link')[0].textContent
