@@ -8,6 +8,9 @@ export default {
     errors: {
       required: 'Поле не должно быть пустым',
       url: 'Ссылка должна быть валидным URL',
+      network: 'Ошибка сети',
+      notFound: 'Ресурс не содержит валидный RSS',
+      rssStillExists: 'RSS уже существует',
     },
   },
   contents: {

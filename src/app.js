@@ -1,10 +1,11 @@
 import { proxy } from 'valtio/vanilla'
-import i18next from 'i18next'
+import i18next, { keyFromSelector } from 'i18next'
 import { validateForm } from './validateForm.js'
 import resources from './locales/index.js'
 import view from './view/index.js'
 import req from './req.js'
 import parserXML from './parserXML.js'
+import axios from 'axios'
 
 export default async () => {
   const defaultLng = 'ru'
@@ -20,7 +21,7 @@ export default async () => {
         href: '',
       },
       contents: {
-        feed: {},
+        feeds: [],
         posts: []
       },
       process: {
@@ -34,40 +35,49 @@ export default async () => {
   const elements = {
     form: document.getElementById('searchForm'),
     formEls: {
-      searchInput: document.getElementById('searchInput'),
-      submitBtn: document.getElementById('submitBtn'),
       message: document.getElementById('message'),
     },
     contents: document.getElementById('contents'),
-    feed: document.getElementById('feed'),
+    feeds: document.getElementById('feeds'),
     posts: document.getElementById('posts')
   }
 
-  elements.formEls.searchInput.addEventListener('input', (event) => {
-    state.searchForm.fields.href = event.target.value
-  })
   elements.form.addEventListener('submit', (event) => {
     event.preventDefault()
+    const formData = new FormData(event.target)
+    const href = formData.get('href')
+    state.searchForm.fields.href = href
 
     validateForm(state.searchForm.fields)
       .then(({ href }) => {
+        if (state.searchForm.contents.feeds.some(feed => feed.href === href)) {
+          throw Object.assign(new Error(), { code: 'RSS_STILL_EXISTS' })
+        }
         state.searchForm.process.isValid = 'valid'
         state.searchForm.process.state = 'processing'
 
-        req(href)
+        return req(href)
           .then(({ data }) => {
-            if (data.status.http_code && data.status.http_code === 200) {
-              const { feed, posts } = parserXML(data.contents)
-              state.searchForm.contents.feed = feed
-              state.searchForm.contents.posts = posts
-            }
+            const { feed, posts } = parserXML(data.contents)
+            const newFeed = { ...feed, href }
+            state.searchForm.contents.feeds = [...state.searchForm.contents.feeds, newFeed]
+            state.searchForm.contents.posts = posts
+            state.searchForm.process.state = 'success'
           })
       })
       .catch((error) => {
         state.searchForm.process.state = 'failed'
         if (error.name === 'ValidationError') {
           state.searchForm.process.isValid = 'invalid'
-          state.searchForm.process.errors['href'] = error.message
+          state.searchForm.process.errors.invalid = error.message
+        } else if (axios.isAxiosError(error)) {
+          if (error.code === 'ERR_NETWORK') {
+            state.searchForm.process.errors.network = keyFromSelector(($) => $.searchForm.errors.network)
+          }
+        } else if (error.code === 'RSS_STILL_EXISTS') {
+          state.searchForm.process.errors.rssStillExists = keyFromSelector(($) => $.searchForm.errors.rssStillExists)
+        } else {
+          state.searchForm.process.errors.notFound = keyFromSelector(($) => $.searchForm.errors.notFound)
         }
       })
   })
