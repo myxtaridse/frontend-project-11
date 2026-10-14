@@ -32,6 +32,7 @@ export default async () => {
     form: document.getElementById('searchForm'),
     formEls: {
       message: document.getElementById('message'),
+      submitBtn: document.getElementById('submitBtn'),
     },
     contents: document.getElementById('contents'),
     feeds: document.getElementById('feeds'),

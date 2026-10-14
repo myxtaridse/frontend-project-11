@@ -5,13 +5,17 @@ export default (process, i18n, elements) => {
 
   if (process.state === 'processing') {
     formEls.message.textContent = ''
+    formEls.submitBtn.disabled = true
   } else if (process.state === 'failed') {
     form.reset()
     Object.values(process.errors).forEach((error) => (message.textContent = i18n.t(error)))
+    formEls.submitBtn.disabled = false
   } else if (process.state === 'success') {
     form.reset()
     formEls.message.textContent = 'RSS успешно загружен'
+    formEls.submitBtn.disabled = false
   } else {
     formEls.message.textContent = ''
+    formEls.submitBtn.disabled = false
   }
 }
