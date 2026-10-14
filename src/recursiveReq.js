@@ -9,7 +9,7 @@ const recursiveReq = (state) => {
           const idsStatePosts = state.contents.posts.map(({ id }) => id);
           const idsSet = new Set(idsStatePosts)
           const filteredStatePosts = posts.filter(({ id }) => !idsSet.has(id))
-          state.searchForm.contents.posts = [...filteredStatePosts, ...state.contents.posts]
+          state.contents.posts = [...filteredStatePosts, ...state.contents.posts]
 
           setTimeout(() => recursiveReq(state), 5000)
         })
