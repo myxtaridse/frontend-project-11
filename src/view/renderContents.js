@@ -29,7 +29,7 @@ const renderPosts = (posts, divBlock) => {
     const button = document.createElement('button')
     button.className = 'border border-blue-500 px-3 py-1 rounded-sm cursor-pointer text-blue-500 text-sm font-medium hover:bg-blue-500 hover:text-white transition delay-150 duration-300 ease-in-out'
     button.dataset.show = 'btn-show-post'
-    button.dataset.id = id
+    button.id = id
     button.textContent = 'Просмотр'
     a.append(p)
 

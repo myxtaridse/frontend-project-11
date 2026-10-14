@@ -40,8 +40,33 @@ export default async () => {
     },
     contents: document.getElementById('contents'),
     feeds: document.getElementById('feeds'),
-    posts: document.getElementById('posts')
+    posts: document.getElementById('posts'),
+    modal: document.querySelector("[data-test='modal-body']"),
+    modalEls: {
+      title: document.getElementById('post-title'),
+      description: document.getElementById('post-description'),
+      more: document.getElementById('post-more-btn'),
+      close: document.querySelectorAll('[data-action="close-btn"]')
+    }
   }
+
+  elements.modalEls.more.addEventListener('click', () => {
+    const post = state.contents.posts.find(({ id }) => id === state.uiState.activePost)
+    if (post) {
+      window.open(post.link, '_blank')
+    }
+  })
+
+  elements.modalEls.close.forEach((closeEl) => {
+    closeEl.addEventListener('click', () => {
+      state.uiState.activePost = null
+    })
+  })
+
+  elements.posts.addEventListener('click', (event) => {
+    const btnPost = event.target.closest("[data-show='btn-show-post']")
+    state.uiState.activePost = btnPost.id
+  })
 
   elements.form.addEventListener('submit', (event) => {
     event.preventDefault()
@@ -60,7 +85,7 @@ export default async () => {
           .then(({ data }) => {
             const { feed, posts } = parserXML(data.contents)
             const newFeed = { ...feed, href }
-            state.contents.feeds = [...state.searchForm.contents.feeds, newFeed]
+            state.contents.feeds = [...state.contents.feeds, newFeed]
             state.contents.posts = posts
             state.searchForm.process.state = 'success'
 
