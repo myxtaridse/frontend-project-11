@@ -6,6 +6,7 @@ import view from './view/index.js'
 import req from './req.js'
 import parserXML from './parserXML.js'
 import axios from 'axios'
+import recursiveReq from './recursiveReq.js'
 
 export default async () => {
   const defaultLng = 'ru'
@@ -32,21 +33,6 @@ export default async () => {
     },
   })
 
-  const recursiveReq = () => {
-    if (state.searchForm.fields.href) {
-      req(state.searchForm.fields.href)
-        .then(({ data }) => {
-          const { posts } = parserXML(data.contents)
-          const idsStatePosts = state.searchForm.contents.posts.map(({ id }) => id);
-          const idsSet = new Set(idsStatePosts)
-          const filteredStatePosts = posts.filter(({ id }) => !idsSet.has(id))
-          state.searchForm.contents.posts = [...filteredStatePosts, ...state.searchForm.contents.posts]
-
-          setTimeout(recursiveReq, 5000)
-        })
-    }
-  }
-
   const elements = {
     form: document.getElementById('searchForm'),
     formEls: {
@@ -60,10 +46,9 @@ export default async () => {
   elements.form.addEventListener('submit', (event) => {
     event.preventDefault()
     const formData = new FormData(event.target)
-    const href = formData.get('href')
-    state.searchForm.fields.href = href
+    const fields = Object.fromEntries(formData);
 
-    validateForm(state.searchForm.fields)
+    validateForm(fields)
       .then(({ href }) => {
         if (state.searchForm.contents.feeds.some(feed => feed.href === href)) {
           throw Object.assign(new Error(), { code: 'RSS_STILL_EXISTS' })
@@ -78,7 +63,9 @@ export default async () => {
             state.searchForm.contents.feeds = [...state.searchForm.contents.feeds, newFeed]
             state.searchForm.contents.posts = posts
             state.searchForm.process.state = 'success'
-            setTimeout(recursiveReq, 5000)
+
+            state.searchForm.fields.href = href
+            setTimeout(() => recursiveReq(state), 5000)
           })
       })
       .catch((error) => {

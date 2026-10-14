@@ -1,0 +1,18 @@
+import parserXML from "./parserXML";
+import req from "./req";
+
+const recursiveReq = (state) => {
+    if (state.searchForm.fields.href) {
+      req(state.searchForm.fields.href)
+        .then(({ data }) => {
+          const { posts } = parserXML(data.contents)
+          const idsStatePosts = state.searchForm.contents.posts.map(({ id }) => id);
+          const idsSet = new Set(idsStatePosts)
+          const filteredStatePosts = posts.filter(({ id }) => !idsSet.has(id))
+          state.searchForm.contents.posts = [...filteredStatePosts, ...state.searchForm.contents.posts]
+
+          setTimeout(() => recursiveReq(state), 5000)
+        })
+    }
+  }
+  export default recursiveReq
