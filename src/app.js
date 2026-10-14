@@ -28,7 +28,7 @@ export default async () => {
     },
     uiState: {
       activePost: null,
-      visitedPost: []
+      visitedPosts: []
     }
   })
 
@@ -66,6 +66,7 @@ export default async () => {
   elements.posts.addEventListener('click', (event) => {
     const btnPost = event.target.closest("[data-show='btn-show-post']")
     state.uiState.activePost = btnPost.id
+    state.uiState.visitedPosts = [...state.uiState.visitedPosts, btnPost.id]
   })
 
   elements.form.addEventListener('submit', (event) => {

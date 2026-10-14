@@ -14,15 +14,17 @@ const renderFeeds = (feeds, divBlock) => {
   })
   divBlock.append(...feedsEls)
 }
-const renderPosts = (posts, divBlock) => {
+const renderPosts = (posts, divBlock, visitedPosts) => {
   divBlock.innerHTML = ''
   const postsEls = posts.map(({ id, title, link }) => {
     const div = document.createElement('div')
     div.className = 'flex flex-col gap-2 min-[500px]:flex-row justify-between items-start my-3'
+    div.dataset.element = 'post'
     const a = document.createElement('a')
     a.setAttribute('href', link)
     a.setAttribute('target', '_blank')
-    a.className = 'text-blue-500 visited:text-gray-400'
+    a.dataset.seen = visitedPosts.includes(id)
+    a.className = 'text-blue-500 data-[seen=true]:text-gray-400'
     const p = document.createElement('p')
     p.className = 'text-base font-semibold'
     p.textContent = title
@@ -49,9 +51,9 @@ const renderPosts = (posts, divBlock) => {
   divBlock.append(...postsElsWithHr)
 }
 
-export default ({ feeds, posts }, elements) => {
+export default ({ feeds, posts }, elements, visitedPosts) => {
   renderFeeds(feeds, elements.feeds)
-  renderPosts(posts, elements.posts)
+  renderPosts(posts, elements.posts, visitedPosts)
 
   elements.contents.style.display = 'flex'
 }

@@ -8,7 +8,8 @@ export default (state, i18n, elements) => {
 
   renderTextInterface(i18n) 
 
-  subscribe(state.contents, () => renderContents(contents, elements))
+  subscribe(state.contents, () => renderContents(contents, elements, uiState.visitedPosts))
+  subscribe(state.uiState, () => renderContents(contents, elements, uiState.visitedPosts))
 
   subscribe(state.searchForm.process, () => renderProcess(process, i18n, elements))
 
