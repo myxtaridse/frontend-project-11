@@ -11,11 +11,6 @@ import recursiveReq from './recursiveReq.js'
 export default async () => {
   const defaultLng = 'ru'
   const i18n = i18next.createInstance()
-  await i18n.init({
-    lng: defaultLng,
-    debug: false,
-    resources,
-  })
   const state = proxy({
     searchForm: {
       fields: {
@@ -84,5 +79,9 @@ export default async () => {
         }
       })
   })
-  view(state, i18n, elements)
+  i18n.init({
+    lng: defaultLng,
+    debug: false,
+    resources,
+  }).then(() => view(state, i18n, elements))
 }
