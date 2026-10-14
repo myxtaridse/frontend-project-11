@@ -16,7 +16,7 @@ const renderFeeds = (feeds, divBlock) => {
 }
 const renderPosts = (posts, divBlock) => {
   divBlock.innerHTML = ''
-  const postsEls = posts.map(({ title, link }) => {
+  const postsEls = posts.map(({ id, title, link }) => {
     const div = document.createElement('div')
     div.className = 'flex flex-col gap-2 min-[500px]:flex-row justify-between items-start my-3'
     const a = document.createElement('a')
@@ -28,6 +28,8 @@ const renderPosts = (posts, divBlock) => {
     p.textContent = title
     const button = document.createElement('button')
     button.className = 'border border-blue-500 px-3 py-1 rounded-sm cursor-pointer text-blue-500 text-sm font-medium hover:bg-blue-500 hover:text-white transition delay-150 duration-300 ease-in-out'
+    button.dataset.show = 'btn-show-post'
+    button.dataset.id = id
     button.textContent = 'Просмотр'
     a.append(p)
 

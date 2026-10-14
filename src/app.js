@@ -16,16 +16,20 @@ export default async () => {
       fields: {
         href: '',
       },
-      contents: {
-        feeds: [],
-        posts: []
-      },
       process: {
         state: 'filling', // processing | failed | success
-        errors: {},
-        isValid: 'invalid', // valid
+        error: null,
+        isValid: true
       },
     },
+    contents: {
+      feeds: [],
+      posts: [],
+    },
+    uiState: {
+      activePost: null,
+      visitedPost: []
+    }
   })
 
   const elements = {
@@ -46,18 +50,18 @@ export default async () => {
 
     validateForm(fields)
       .then(({ href }) => {
-        if (state.searchForm.contents.feeds.some(feed => feed.href === href)) {
+        if (state.contents.feeds.some(feed => feed.href === href)) {
           throw Object.assign(new Error(), { code: 'RSS_STILL_EXISTS' })
         }
-        state.searchForm.process.isValid = 'valid'
+        state.searchForm.process.isValid = true
         state.searchForm.process.state = 'processing'
 
         return req(href)
           .then(({ data }) => {
             const { feed, posts } = parserXML(data.contents)
             const newFeed = { ...feed, href }
-            state.searchForm.contents.feeds = [...state.searchForm.contents.feeds, newFeed]
-            state.searchForm.contents.posts = posts
+            state.contents.feeds = [...state.searchForm.contents.feeds, newFeed]
+            state.contents.posts = posts
             state.searchForm.process.state = 'success'
 
             state.searchForm.fields.href = href
@@ -67,16 +71,16 @@ export default async () => {
       .catch((error) => {
         state.searchForm.process.state = 'failed'
         if (error.name === 'ValidationError') {
-          state.searchForm.process.isValid = 'invalid'
-          state.searchForm.process.errors.invalid = error.message
+          state.searchForm.process.isValid = false
+          state.searchForm.process.error = error.message
         } else if (axios.isAxiosError(error)) {
           if (error.code === 'ERR_NETWORK') {
-            state.searchForm.process.errors.network = keyFromSelector(($) => $.searchForm.errors.network)
+            state.searchForm.process.error = keyFromSelector(($) => $.searchForm.errors.network)
           }
         } else if (error.code === 'RSS_STILL_EXISTS') {
-          state.searchForm.process.errors.rssStillExists = keyFromSelector(($) => $.searchForm.errors.rssStillExists)
+          state.searchForm.process.error = keyFromSelector(($) => $.searchForm.errors.rssStillExists)
         } else {
-          state.searchForm.process.errors.notFound = keyFromSelector(($) => $.searchForm.errors.notFound)
+          state.searchForm.process.error = keyFromSelector(($) => $.searchForm.errors.notFound)
         }
       })
   })
