@@ -8,7 +8,7 @@ export default (process, i18n, elements) => {
     formEls.submitBtn.disabled = true
   } else if (process.state === 'failed') {
     form.reset()
-    message.textContent = i18n.t(process.error)
+    formEls.message.textContent = i18n.t(process.error)
     formEls.submitBtn.disabled = false
   } else if (process.state === 'success') {
     form.reset()
