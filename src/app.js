@@ -85,8 +85,8 @@ export default () => {
         return req(href).then(({ data }) => {
           const { feed, posts } = parserXML(data.contents)
           const newFeed = { ...feed, href }
-          state.contents.feeds = [...state.contents.feeds, newFeed]
-          state.contents.posts = posts
+          state.contents.feeds = [newFeed, ...state.contents.feeds]
+          state.contents.posts = [...posts, ...state.contents.posts]
           state.searchForm.process.state = 'success'
 
           state.searchForm.fields.href = href

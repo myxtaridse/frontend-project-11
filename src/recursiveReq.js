@@ -2,8 +2,8 @@ import parserXML from './parserXML'
 import req from './req'
 
 const recursiveReq = (state) => {
-  if (state.searchForm.fields.href) {
-    req(state.searchForm.fields.href).then(({ data }) => {
+  state.contents.feeds.forEach(({ href }) => {
+    req(href).then(({ data }) => {
       const { posts } = parserXML(data.contents)
       const idsStatePosts = state.contents.posts.map(({ id }) => id)
       const idsSet = new Set(idsStatePosts)
@@ -12,6 +12,6 @@ const recursiveReq = (state) => {
 
       setTimeout(() => recursiveReq(state), 5000)
     })
-  }
+  })
 }
 export default recursiveReq
