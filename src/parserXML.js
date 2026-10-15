@@ -11,7 +11,7 @@ export default (xml) => {
   const feed = {}
 
   const parser = new DOMParser()
-  const doc = parser.parseFromString(xml, 'application/xml')
+  const doc = parser.parseFromString(xml, 'text/xml')
 
   feed.id = uniqueId()
   feed.title = getText(doc, 'title')
