@@ -47,6 +47,6 @@ make run
 
 ## Демо
 
-[https://frontend-project-11-pied-two.vercel.app](https://frontend-project-11-pied-two.vercel.app)
+[https://frontend-project-11.vercel.app](https://frontend-project-11-1axx9db40-myxtaridses-projects.vercel.app/)
 
 ![alt text](image.png)
