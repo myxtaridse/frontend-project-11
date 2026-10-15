@@ -41,7 +41,7 @@ export default () => {
     contents: document.getElementById('contents'),
     feeds: document.getElementById('feeds'),
     posts: document.getElementById('posts'),
-    modal: document.querySelector("[data-test='modal-body']"),
+    modal: document.querySelector('dialog'),
     modalEls: {
       title: document.getElementById('post-title'),
       description: document.getElementById('post-description'),
