@@ -4,7 +4,7 @@ const uniqueId = () => {
 
 const getText = (parent, selector) => {
   const element = parent.querySelector(selector)
-  return element.textContent.trim()
+  return element ? element.textContent.trim() : ''
 }
 
 export default (xml) => {
