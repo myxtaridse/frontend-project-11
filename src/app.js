@@ -83,7 +83,6 @@ export default () => {
         state.searchForm.process.state = 'processing'
 
         return req(href).then(({ data }) => {
-          console.log('Проверка ответа из тестового запроса', data);
           const responseData = typeof data === 'string' ? JSON.parse(data) : data
           const { feed, posts } = parserXML(responseData.contents)
           const newFeed = { ...feed, href }
@@ -96,6 +95,7 @@ export default () => {
         })
       })
       .catch((error) => {
+        console.log(error, 'Проверяем, где именно ломается parserXML при ошибочных тестах')
         state.searchForm.process.state = 'failed'
         if (error.name === 'ValidationError') {
           state.searchForm.process.isValid = false
