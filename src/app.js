@@ -83,7 +83,8 @@ export default () => {
         state.searchForm.process.state = 'processing'
 
         return req(href).then(({ data }) => {
-          const { feed, posts } = parserXML(data.contents)
+          const responseData = typeof data === 'string' ? JSON.parse(data) : data
+          const { feed, posts } = parserXML(responseData.contents)
           const newFeed = { ...feed, href }
           state.contents.feeds = [newFeed, ...state.contents.feeds]
           state.contents.posts = [...posts, ...state.contents.posts]
