@@ -13,8 +13,6 @@ export default (xml) => {
   const parser = new DOMParser()
   const doc = parser.parseFromString(xml, 'text/xml')
 
-  console.log(doc, 'Проверка, что doc в тестах появляется')
-
   feed.id = uniqueId()
   feed.title = getText(doc, 'title')
   feed.description = getText(doc, 'description')
@@ -27,6 +25,8 @@ export default (xml) => {
 
     return [...acc, { id, title, description, link, feedId: feed.id }]
   }, [])
+
+  console.log(feed, posts, 'Проверка, что данный парсер выполняется в тестах появляется')
 
   return { feed, posts }
 }
