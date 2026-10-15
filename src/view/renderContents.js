@@ -21,7 +21,8 @@ const renderPosts = (posts, divBlock, visitedPosts) => {
   const postsEls = posts.map(({ id, title, link }) => {
     const li = document.createElement('li')
     const div = document.createElement('div')
-    div.className = 'flex flex-col gap-2 min-[500px]:flex-row justify-between items-start min-[500px]:items-center my-3'
+    div.className =
+      'flex flex-col gap-2 min-[500px]:flex-row justify-between items-start min-[500px]:items-center my-3'
     div.dataset.element = 'post'
     const a = document.createElement('a')
     a.setAttribute('href', link)
