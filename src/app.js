@@ -95,7 +95,6 @@ export default () => {
         })
       })
       .catch((error) => {
-        console.log(error, 'Проверяем, где именно ломается parserXML при ошибочных тестах')
         state.searchForm.process.state = 'failed'
         if (error.name === 'ValidationError') {
           state.searchForm.process.isValid = false
