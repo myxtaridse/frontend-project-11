@@ -18,5 +18,5 @@ export default {
   contents: {
     'posts-title': 'Посты',
     'feed-title': 'Фиды',
-  }
+  },
 }

@@ -32,7 +32,8 @@ const renderPosts = (posts, divBlock, visitedPosts) => {
     p.className = 'text-base font-semibold'
     p.textContent = title
     const button = document.createElement('button')
-    button.className = 'border border-blue-500 px-3 py-1 rounded-sm cursor-pointer text-blue-500 text-sm font-medium hover:bg-blue-500 hover:text-white transition delay-150 duration-300 ease-in-out'
+    button.className =
+      'border border-blue-500 px-3 py-1 rounded-sm cursor-pointer text-blue-500 text-sm font-medium hover:bg-blue-500 hover:text-white transition delay-150 duration-300 ease-in-out'
     button.dataset.show = 'btn-show-post'
     button.id = id
     button.textContent = 'Просмотр'
@@ -45,7 +46,7 @@ const renderPosts = (posts, divBlock, visitedPosts) => {
   })
   const postsElsWithHr = postsEls.reduce((acc, post, i, posts) => {
     acc.push(post)
-    if (i !== (posts.length - 1)) {
+    if (i !== posts.length - 1) {
       const hr = document.createElement('hr')
       hr.className = 'w-full bg-gray-300 border-none h-[1px]'
       acc.push(hr)

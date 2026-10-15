@@ -11,11 +11,7 @@ yup.setLocale({
 })
 
 const schema = yup.object().shape({
-  href: yup
-    .string()
-    .trim()
-    .required()
-    .url(),
+  href: yup.string().trim().required().url(),
 })
 
 export const validateForm = (formData) => schema.validate(formData)

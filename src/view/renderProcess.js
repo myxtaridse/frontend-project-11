@@ -12,7 +12,7 @@ export default (process, i18n, elements) => {
     formEls.submitBtn.disabled = false
   } else if (process.state === 'success') {
     form.reset()
-    formEls.message.textContent = i18n.t($ => $.searchForm.messageSuccess)
+    formEls.message.textContent = i18n.t(($) => $.searchForm.messageSuccess)
     formEls.submitBtn.disabled = false
   } else {
     formEls.message.textContent = ''

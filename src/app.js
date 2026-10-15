@@ -8,7 +8,7 @@ import parserXML from './parserXML.js'
 import axios from 'axios'
 import recursiveReq from './recursiveReq.js'
 
-export default async () => {
+export default () => {
   const defaultLng = 'ru'
   const i18n = i18next.createInstance()
   const state = proxy({
@@ -19,7 +19,7 @@ export default async () => {
       process: {
         state: 'filling', // processing | failed | success
         error: null,
-        isValid: true
+        isValid: true,
       },
     },
     contents: {
@@ -28,8 +28,8 @@ export default async () => {
     },
     uiState: {
       activePost: null,
-      visitedPosts: []
-    }
+      visitedPosts: [],
+    },
   })
 
   const elements = {
@@ -46,8 +46,8 @@ export default async () => {
       title: document.getElementById('post-title'),
       description: document.getElementById('post-description'),
       more: document.getElementById('post-more-btn'),
-      closeEls: document.querySelectorAll('[data-action="close-btn"]')
-    }
+      closeEls: document.querySelectorAll('[data-action="close-btn"]'),
+    },
   }
 
   elements.modalEls.more.addEventListener('click', () => {
@@ -72,27 +72,26 @@ export default async () => {
   elements.form.addEventListener('submit', (event) => {
     event.preventDefault()
     const formData = new FormData(event.target)
-    const fields = Object.fromEntries(formData);
+    const fields = Object.fromEntries(formData)
 
     validateForm(fields)
       .then(({ href }) => {
-        if (state.contents.feeds.some(feed => feed.href === href)) {
+        if (state.contents.feeds.some((feed) => feed.href === href)) {
           throw Object.assign(new Error(), { code: 'RSS_STILL_EXISTS' })
         }
         state.searchForm.process.isValid = true
         state.searchForm.process.state = 'processing'
 
-        return req(href)
-          .then(({ data }) => {
-            const { feed, posts } = parserXML(data.contents)
-            const newFeed = { ...feed, href }
-            state.contents.feeds = [...state.contents.feeds, newFeed]
-            state.contents.posts = posts
-            state.searchForm.process.state = 'success'
+        return req(href).then(({ data }) => {
+          const { feed, posts } = parserXML(data.contents)
+          const newFeed = { ...feed, href }
+          state.contents.feeds = [...state.contents.feeds, newFeed]
+          state.contents.posts = posts
+          state.searchForm.process.state = 'success'
 
-            state.searchForm.fields.href = href
-            setTimeout(() => recursiveReq(state), 5000)
-          })
+          state.searchForm.fields.href = href
+          setTimeout(() => recursiveReq(state), 5000)
+        })
       })
       .catch((error) => {
         state.searchForm.process.state = 'failed'
@@ -104,15 +103,19 @@ export default async () => {
             state.searchForm.process.error = keyFromSelector(($) => $.searchForm.errors.network)
           }
         } else if (error.code === 'RSS_STILL_EXISTS') {
-          state.searchForm.process.error = keyFromSelector(($) => $.searchForm.errors.rssStillExists)
+          state.searchForm.process.error = keyFromSelector(
+            ($) => $.searchForm.errors.rssStillExists,
+          )
         } else {
           state.searchForm.process.error = keyFromSelector(($) => $.searchForm.errors.notFound)
         }
       })
   })
-  i18n.init({
-    lng: defaultLng,
-    debug: false,
-    resources,
-  }).then(() => view(state, i18n, elements))
+  i18n
+    .init({
+      lng: defaultLng,
+      debug: false,
+      resources,
+    })
+    .then(() => view(state, i18n, elements))
 }
