@@ -26,7 +26,5 @@ export default (xml) => {
     return [...acc, { id, title, description, link, feedId: feed.id }]
   }, [])
 
-  console.log(feed, posts, 'Проверка, что данный парсер выполняется в тестах появляется')
-
   return { feed, posts }
 }
