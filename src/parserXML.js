@@ -1,5 +1,5 @@
 const uniqueId = () => {
-  return crypto.randomUUID()
+  return Math.random().toString(16).slice(2)
 }
 
 const getText = (parent, selector) => {
