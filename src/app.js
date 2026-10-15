@@ -35,7 +35,7 @@ export default async () => {
   const elements = {
     form: document.querySelector('[role="search"]'),
     formEls: {
-      message: document.getElementById('message'),
+      message: document.getElementById('search-message'),
       submitBtn: document.getElementById('submitBtn'),
     },
     contents: document.getElementById('contents'),
