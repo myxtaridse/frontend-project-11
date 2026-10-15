@@ -49,4 +49,4 @@ make run
 
 [https://frontend-project-11-pied-two.vercel.app](https://frontend-project-11-pied-two.vercel.app)
 
-<!-- Сюда макет (GIF/видео) -->
+![alt text](image.png)
