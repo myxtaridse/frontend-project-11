@@ -33,7 +33,7 @@ export default async () => {
   })
 
   const elements = {
-    form: document.getElementById('searchForm'),
+    form: document.querySelector('[role="search"]'),
     formEls: {
       message: document.getElementById('message'),
       submitBtn: document.getElementById('submitBtn'),
@@ -46,7 +46,7 @@ export default async () => {
       title: document.getElementById('post-title'),
       description: document.getElementById('post-description'),
       more: document.getElementById('post-more-btn'),
-      close: document.querySelectorAll('[data-action="close-btn"]')
+      closeEls: document.querySelectorAll('[data-action="close-btn"]')
     }
   }
 
@@ -57,7 +57,7 @@ export default async () => {
     }
   })
 
-  elements.modalEls.close.forEach((closeEl) => {
+  elements.modalEls.closeEls.forEach((closeEl) => {
     closeEl.addEventListener('click', () => {
       state.uiState.activePost = null
     })

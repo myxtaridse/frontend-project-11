@@ -1,6 +1,7 @@
 const renderFeeds = (feeds, divBlock) => {
   divBlock.innerHTML = ''
   const feedsEls = feeds.map((feed) => {
+    const li = document.createElement('li')
     const div = document.createElement('div')
     const h4 = document.createElement('h4')
     h4.className = 'text-base font-semibold'
@@ -10,13 +11,15 @@ const renderFeeds = (feeds, divBlock) => {
     p.textContent = feed.description
 
     div.append(h4, p)
-    return div
+    li.append(div)
+    return li
   })
   divBlock.append(...feedsEls)
 }
 const renderPosts = (posts, divBlock, visitedPosts) => {
   divBlock.innerHTML = ''
   const postsEls = posts.map(({ id, title, link }) => {
+    const li = document.createElement('li')
     const div = document.createElement('div')
     div.className = 'flex flex-col gap-2 min-[500px]:flex-row justify-between items-start my-3'
     div.dataset.element = 'post'
@@ -36,8 +39,9 @@ const renderPosts = (posts, divBlock, visitedPosts) => {
     a.append(p)
 
     div.append(a, button)
+    li.append(div)
 
-    return div
+    return li
   })
   const postsElsWithHr = postsEls.reduce((acc, post, i, posts) => {
     acc.push(post)
