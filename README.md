@@ -10,28 +10,43 @@
 
 ## Требования
 
-- Unix system (Macos/Linux)
-- Nodejs 22.x+
+- Unix system (macOs/Linux)
+- Nodejs 20.x+
 - Make
 
 ## Стек
 
 - JavaScript (ES6+)
 - HTML5
-- Tailwind CSS
+- Tailwind CSS 4 + @tailwindcss/forms
 - Architecture: MVC
 - Build Tools: Vite
-- Libraries:
+- Libraries: valtio/vanilla (реактивное состояние), yup (валидация), axios (http-запросы), i18next (организация текстов интерфейса)
+- Linting/Formatting: Oxlint, Oxfmt
+- CI/CD: GitHub Actions, Vercel
 
 ## Установка
-
-<!-- Опишите установку: клонирование, зависимости, переменные окружения -->
 
 ```bash
 git clone https://github.com/myxtaridse/frontend-project-11.git
 cd frontend-project-11
+make install
 ```
 
-## Использование
+## Сборка
 
-<!-- Добавьте примеры запуска и запись asciinema — именно это смотрит работодатель -->
+```bash
+make build
+```
+
+## Запуск локального сервера
+
+```bash
+make run
+```
+
+## Демо
+
+[https://frontend-project-11-pied-two.vercel.app](https://frontend-project-11-pied-two.vercel.app)
+
+<!-- Сюда макет (GIF/видео) -->
